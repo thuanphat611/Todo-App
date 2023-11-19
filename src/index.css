@@ -1,0 +1,102 @@
+
+:root {
+  --container-color: #ebebe1;
+  --app-color: #f8f8f8f2;
+  --header-color: #f6ea8c;
+  --header-height: 80px;
+  --logo-size: 75px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family:'Roboto', sans-serif;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: var(--container-color);
+}
+
+.app {
+  max-width: 1000px;
+  min-height: 1000px;
+  background-color: var(--app-color);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.header {
+  height: var(--header-height);
+  width: 960px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: var(--header-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.logo_section {
+  display: flex;
+  align-items: center;
+}
+
+.app_name {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 0;
+  cursor: default;
+}
+
+.logo {
+  width: var(--logo-size);
+  height: var(--logo-size);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  height: calc(var(--header-height) - 3px);
+  font-size: 18px;
+  line-height: calc(var(--header-height) - 3px);
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.nav-item.active {
+  border-bottom: 3px solid orange;
+}
+
+.add-button {
+  width: 90px;
+  height: 50px;
+  font-size: 18px;
+  background: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #000;
+}
+
+.add-button:hover {
+  color: #665;
+  border-color: #665;
+}
+
+.app-content {
+  /* padding-top: var(--header-height); */
+}
