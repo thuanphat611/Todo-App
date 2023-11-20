@@ -5,12 +5,24 @@ const addBtn = document.querySelector('.add-button');
 const closeModalBtn = document.querySelector('.close-modal');
 const myModal = document.querySelector('.modal');
 const addTaskBtn = document.querySelector('.save-btn');
+const formTitle = document.querySelector('.title-input');
+const formText = document.querySelector('.text-input');
+const formDate = document.querySelector('.date-input');
+const clearForm = () => {
+    if (formTitle)
+        formTitle.value = '';
+    if (formText)
+        formText.value = '';
+    if (formDate)
+        formDate.value = '';
+};
 const changeTab = () => {
     console.log('change');
     currentTaskNav.classList.toggle('active');
     completedTaskNav.classList.toggle('active');
 };
 const toggleModal = () => {
+    clearForm();
     myModal === null || myModal === void 0 ? void 0 : myModal.classList.toggle("no-display");
 };
 addBtn === null || addBtn === void 0 ? void 0 : addBtn.addEventListener("click", () => {

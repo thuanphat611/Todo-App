@@ -6,11 +6,18 @@ const closeModalBtn = document.querySelector('.close-modal');
 const myModal = document.querySelector<HTMLDivElement>('.modal');
 const addTaskBtn = document.querySelector('.save-btn');
 
-// const formTitle = document.querySelector('.title-input');
+const formTitle = document.querySelector<HTMLInputElement>('.title-input');
+const formText = document.querySelector<HTMLTextAreaElement>('.text-input');
+const formDate = document.querySelector<HTMLInputElement>('.date-input');
 
-// const clearForm = (): void => {
-
-// };
+const clearForm = (): void => {
+  if (formTitle) 
+    formTitle.value = '';
+  if (formText) 
+    formText.value = '';
+  if (formDate)
+    formDate.value = '';
+};
 
 const changeTab = (): void => {
   console.log('change');
@@ -19,6 +26,7 @@ const changeTab = (): void => {
 };
 
 const toggleModal = (): void => {
+    clearForm();
     myModal?.classList.toggle("no-display");
 };
 
