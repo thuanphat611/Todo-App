@@ -35,7 +35,7 @@ const moveTask = (src, dest, id) => {
             taskIndex = i;
     });
     src.splice(taskIndex, 1);
-    refreshTaskList(src);
+    setTimeout(() => refreshTaskList(src), 100);
 };
 const refreshTaskList = (list) => {
     if (taskList !== undefined && taskList !== null) {
@@ -61,11 +61,13 @@ const refreshTaskList = (list) => {
         taskCheckBox.checked = task.isCompleted;
         if (task.isCompleted) {
             taskCheckBox.addEventListener('click', () => {
+                taskItem.style.animation = "fade-out 0.1s ease-out forwards";
                 moveTask(completedTaskList, currentTaskList, task.id);
             });
         }
         else {
             taskCheckBox.addEventListener('click', () => {
+                taskItem.style.animation = "fade-out 0.1s ease-out forwards";
                 moveTask(currentTaskList, completedTaskList, task.id);
             });
         }
