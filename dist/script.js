@@ -9,8 +9,15 @@ const formTitle = document.querySelector('.title-input');
 const formText = document.querySelector('.text-input');
 const formDate = document.querySelector('.date-input');
 const taskList = document.querySelector('.task-list');
+let currentTab = 1;
 let CurrentTaskList = [];
-let completedTaskList = [];
+let completedTaskList = [{
+        id: 1700468638409,
+        title: "Learn TypeScript",
+        date: "2023-11-20",
+        content: "Learn TypeScript and do a simple project",
+        isCompleted: true
+    }];
 const refreshTaskList = (list) => {
     if (taskList !== undefined && taskList !== null) {
         taskList.innerHTML = '';
@@ -32,6 +39,7 @@ const refreshTaskList = (list) => {
         taskTitle.innerText = task.title;
         taskDeadline.innerText = task.date;
         taskContent.innerText = task.content;
+        taskCheckBox.checked = task.isCompleted;
         taskItem.append(taskCheckBox);
         taskItem.append(taskTitle);
         taskItem.append(taskDeadline);
@@ -48,7 +56,8 @@ const addTask = (list) => {
         id: Date.now(),
         title: formTitle === null || formTitle === void 0 ? void 0 : formTitle.value,
         date: "",
-        content: formText === null || formText === void 0 ? void 0 : formText.value
+        content: formText === null || formText === void 0 ? void 0 : formText.value,
+        isCompleted: false
     };
     const date = (formDate === null || formDate === void 0 ? void 0 : formDate.value) || new Date();
     if (typeof date === "string")
@@ -58,7 +67,6 @@ const addTask = (list) => {
         task.date = dateText;
     }
     list.push(task);
-    console.log(list);
 };
 const formValidCheck = () => {
     if (!formTitle || formTitle.value.length === 0)
@@ -77,10 +85,17 @@ const clearForm = () => {
     if (formDate)
         formDate.value = '';
 };
-const changeTab = () => {
-    console.log('change');
-    currentTaskNav.classList.toggle('active');
-    completedTaskNav.classList.toggle('active');
+const changeTab = (e) => {
+    if (e.target === completedTaskNav && currentTab === 1) {
+        currentTaskNav.classList.toggle('active');
+        completedTaskNav.classList.toggle('active');
+        currentTab = 2;
+    }
+    if (e.target === currentTaskNav && currentTab === 2) {
+        currentTaskNav.classList.toggle('active');
+        completedTaskNav.classList.toggle('active');
+        currentTab = 1;
+    }
 };
 const toggleModal = () => {
     clearForm();
@@ -100,5 +115,11 @@ addTaskBtn === null || addTaskBtn === void 0 ? void 0 : addTaskBtn.addEventListe
         toggleModal();
     }
 });
-currentTaskNav === null || currentTaskNav === void 0 ? void 0 : currentTaskNav.addEventListener('click', () => { changeTab(); });
-completedTaskNav === null || completedTaskNav === void 0 ? void 0 : completedTaskNav.addEventListener('click', () => { changeTab(); });
+currentTaskNav === null || currentTaskNav === void 0 ? void 0 : currentTaskNav.addEventListener('click', (e) => {
+    changeTab(e);
+    refreshTaskList(CurrentTaskList);
+});
+completedTaskNav === null || completedTaskNav === void 0 ? void 0 : completedTaskNav.addEventListener('click', (e) => {
+    changeTab(e);
+    refreshTaskList(completedTaskList);
+});

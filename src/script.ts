@@ -12,15 +12,23 @@ const formDate = document.querySelector<HTMLInputElement>('.date-input');
 
 const taskList = document.querySelector<HTMLUListElement>('.task-list');
 
+let currentTab: 1 | 2 = 1;//1: currentTask, 2: completedTask
 interface Task {
   id: number;
   title: string,
   date: string,
-  content: string
+  content: string,
+  isCompleted: boolean
 }
 
 let CurrentTaskList: Task[] = [];
-let completedTaskList: Task[] = [];
+let completedTaskList: Task[] = [{
+  id: 1700468638409,
+  title: "Learn TypeScript",
+  date:"2023-11-20",
+  content:"Learn TypeScript and do a simple project",
+  isCompleted: true
+}];
 
 const refreshTaskList = (list: Task[]): void => {
   if (taskList !== undefined && taskList !== null) {
@@ -46,6 +54,7 @@ const refreshTaskList = (list: Task[]): void => {
     taskTitle.innerText = task.title;
     taskDeadline.innerText = task.date;
     taskContent.innerText = task.content;
+    taskCheckBox.checked = task.isCompleted;
   
     taskItem.append(taskCheckBox);
     taskItem.append(taskTitle);
@@ -67,7 +76,8 @@ const addTask = (list: Task[]): void => {
     id: Date.now(),
     title: formTitle?.value,
     date: "",
-    content: formText?.value
+    content: formText?.value,
+    isCompleted: false
   }
   
   const date = formDate?.value || new Date();
@@ -79,7 +89,6 @@ const addTask = (list: Task[]): void => {
     task.date = dateText;
   }
   list.push(task);
-  console.log(list);
 };
 
 const formValidCheck = (): boolean => {
@@ -101,10 +110,17 @@ const clearForm = (): void => {
     formDate.value = '';
 };
 
-const changeTab = (): void => {
-  console.log('change');
-  currentTaskNav.classList.toggle('active');
-  completedTaskNav.classList.toggle('active');
+const changeTab = (e: any): void => {
+  if (e.target === completedTaskNav && currentTab === 1) {
+    currentTaskNav.classList.toggle('active');
+    completedTaskNav.classList.toggle('active');
+    currentTab = 2;
+  }
+  if (e.target === currentTaskNav && currentTab === 2) {
+    currentTaskNav.classList.toggle('active');
+    completedTaskNav.classList.toggle('active');
+    currentTab = 1;
+  }
 };
 
 const toggleModal = (): void => {
@@ -130,5 +146,11 @@ addTaskBtn?.addEventListener('click', (e) => {
   }
 });
 
-currentTaskNav?.addEventListener('click', () => { changeTab() });
-completedTaskNav?.addEventListener('click', () => { changeTab() });
+currentTaskNav?.addEventListener('click', (e) => { 
+  changeTab(e);
+  refreshTaskList(CurrentTaskList);
+});
+completedTaskNav?.addEventListener('click', (e) => { 
+  changeTab(e);
+  refreshTaskList(completedTaskList);
+});
