@@ -8,6 +8,58 @@ const addTaskBtn = document.querySelector('.save-btn');
 const formTitle = document.querySelector('.title-input');
 const formText = document.querySelector('.text-input');
 const formDate = document.querySelector('.date-input');
+const taskList = document.querySelector('.task-list');
+let CurrentTaskList = [];
+let completedTaskList = [];
+const refreshTaskList = (list) => {
+    if (taskList !== undefined && taskList !== null) {
+        taskList.innerHTML = '';
+    }
+    else
+        return;
+    list.forEach((task) => {
+        const taskItem = document.createElement('li');
+        taskItem.classList.add('task-item');
+        const taskCheckBox = document.createElement('input');
+        taskCheckBox.type = 'checkbox';
+        taskCheckBox.classList.add('done-checkbox');
+        const taskTitle = document.createElement('h3');
+        taskTitle.classList.add('task-title');
+        const taskDeadline = document.createElement('h3');
+        taskDeadline.classList.add('task-deadline');
+        const taskContent = document.createElement('p');
+        taskContent.classList.add('task-content');
+        taskTitle.innerText = task.title;
+        taskDeadline.innerText = task.date;
+        taskContent.innerText = task.content;
+        taskItem.append(taskCheckBox);
+        taskItem.append(taskTitle);
+        taskItem.append(taskDeadline);
+        taskItem.append(taskContent);
+        taskList === null || taskList === void 0 ? void 0 : taskList.append(taskItem);
+    });
+};
+const addTask = (list) => {
+    if (!formTitle || formTitle.value.length === 0)
+        return;
+    if (!formText || formText.value.length === 0)
+        return;
+    let task = {
+        id: Date.now(),
+        title: formTitle === null || formTitle === void 0 ? void 0 : formTitle.value,
+        date: "",
+        content: formText === null || formText === void 0 ? void 0 : formText.value
+    };
+    const date = (formDate === null || formDate === void 0 ? void 0 : formDate.value) || new Date();
+    if (typeof date === "string")
+        task.date = date;
+    else {
+        let dateText = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+        task.date = dateText;
+    }
+    list.push(task);
+    console.log(list);
+};
 const clearForm = () => {
     if (formTitle)
         formTitle.value = '';
@@ -33,6 +85,8 @@ closeModalBtn === null || closeModalBtn === void 0 ? void 0 : closeModalBtn.addE
 });
 addTaskBtn === null || addTaskBtn === void 0 ? void 0 : addTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    addTask(CurrentTaskList);
+    refreshTaskList(CurrentTaskList);
     toggleModal();
 });
 currentTaskNav === null || currentTaskNav === void 0 ? void 0 : currentTaskNav.addEventListener('click', () => { changeTab(); });
