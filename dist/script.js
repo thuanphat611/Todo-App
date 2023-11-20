@@ -60,6 +60,15 @@ const addTask = (list) => {
     list.push(task);
     console.log(list);
 };
+const formValidCheck = () => {
+    if (!formTitle || formTitle.value.length === 0)
+        return false;
+    if (!formText || formText.value.length === 0)
+        return false;
+    if (!formDate || formDate.value.length == 0)
+        return false;
+    return true;
+};
 const clearForm = () => {
     if (formTitle)
         formTitle.value = '';
@@ -85,9 +94,11 @@ closeModalBtn === null || closeModalBtn === void 0 ? void 0 : closeModalBtn.addE
 });
 addTaskBtn === null || addTaskBtn === void 0 ? void 0 : addTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    addTask(CurrentTaskList);
-    refreshTaskList(CurrentTaskList);
-    toggleModal();
+    if (formValidCheck()) {
+        addTask(CurrentTaskList);
+        refreshTaskList(CurrentTaskList);
+        toggleModal();
+    }
 });
 currentTaskNav === null || currentTaskNav === void 0 ? void 0 : currentTaskNav.addEventListener('click', () => { changeTab(); });
 completedTaskNav === null || completedTaskNav === void 0 ? void 0 : completedTaskNav.addEventListener('click', () => { changeTab(); });

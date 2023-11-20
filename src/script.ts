@@ -82,6 +82,16 @@ const addTask = (list: Task[]): void => {
   console.log(list);
 };
 
+const formValidCheck = (): boolean => {
+  if (!formTitle || formTitle.value.length === 0)
+    return false;
+  if (!formText || formText.value.length === 0)
+    return false;
+  if (!formDate || formDate.value.length == 0)
+    return false;
+  return true;
+};
+
 const clearForm = (): void => {
   if (formTitle) 
     formTitle.value = '';
@@ -113,10 +123,11 @@ closeModalBtn?.addEventListener("click", () => {
 addTaskBtn?.addEventListener('click', (e) => {
   e.preventDefault();
 
-  addTask(CurrentTaskList);
-  refreshTaskList(CurrentTaskList);
-
-  toggleModal();
+  if (formValidCheck()) {
+    addTask(CurrentTaskList);
+    refreshTaskList(CurrentTaskList);
+    toggleModal();
+  }
 });
 
 currentTaskNav?.addEventListener('click', () => { changeTab() });
