@@ -21,14 +21,30 @@ interface Task {
   isCompleted: boolean
 }
 
-let CurrentTaskList: Task[] = [];
-let completedTaskList: Task[] = [{
+let currentTaskList: Task[] = [];
+let completedTaskList: Task[] = [
+  {
   id: 1700468638409,
   title: "Learn TypeScript",
   date:"2023-11-20",
   content:"Learn TypeScript and do a simple project",
   isCompleted: true
-}];
+  }
+];
+
+const moveTask = (src: Task[], dest: Task[], id: number): void => {
+  const task = src.filter((task) => task.id === id)[0];
+
+  task.isCompleted = !task.isCompleted;
+  dest.push(task);
+  let taskIndex = -1;
+  src.forEach((task, i) => {
+    if (task.id === id)
+    taskIndex = i;
+  });
+  src.splice(taskIndex,1);
+  refreshTaskList(src);
+};
 
 const refreshTaskList = (list: Task[]): void => {
   if (taskList !== undefined && taskList !== null) {
@@ -55,6 +71,17 @@ const refreshTaskList = (list: Task[]): void => {
     taskDeadline.innerText = task.date;
     taskContent.innerText = task.content;
     taskCheckBox.checked = task.isCompleted;
+
+    if (task.isCompleted) {
+      taskCheckBox.addEventListener('click', () => {
+        moveTask(completedTaskList, currentTaskList, task.id)
+      });
+    }
+    else {
+      taskCheckBox.addEventListener('click', () => {
+        moveTask(currentTaskList, completedTaskList, task.id)
+      });
+    }
   
     taskItem.append(taskCheckBox);
     taskItem.append(taskTitle);
@@ -140,15 +167,15 @@ addTaskBtn?.addEventListener('click', (e) => {
   e.preventDefault();
 
   if (formValidCheck()) {
-    addTask(CurrentTaskList);
-    refreshTaskList(CurrentTaskList);
+    addTask(currentTaskList);
+    refreshTaskList(currentTaskList);
     toggleModal();
   }
 });
 
 currentTaskNav?.addEventListener('click', (e) => { 
   changeTab(e);
-  refreshTaskList(CurrentTaskList);
+  refreshTaskList(currentTaskList);
 });
 completedTaskNav?.addEventListener('click', (e) => { 
   changeTab(e);

@@ -10,14 +10,28 @@ const formText = document.querySelector('.text-input');
 const formDate = document.querySelector('.date-input');
 const taskList = document.querySelector('.task-list');
 let currentTab = 1;
-let CurrentTaskList = [];
-let completedTaskList = [{
+let currentTaskList = [];
+let completedTaskList = [
+    {
         id: 1700468638409,
         title: "Learn TypeScript",
         date: "2023-11-20",
         content: "Learn TypeScript and do a simple project",
         isCompleted: true
-    }];
+    }
+];
+const moveTask = (src, dest, id) => {
+    const task = src.filter((task) => task.id === id)[0];
+    task.isCompleted = !task.isCompleted;
+    dest.push(task);
+    let taskIndex = -1;
+    src.forEach((task, i) => {
+        if (task.id === id)
+            taskIndex = i;
+    });
+    src.splice(taskIndex, 1);
+    refreshTaskList(src);
+};
 const refreshTaskList = (list) => {
     if (taskList !== undefined && taskList !== null) {
         taskList.innerHTML = '';
@@ -40,6 +54,16 @@ const refreshTaskList = (list) => {
         taskDeadline.innerText = task.date;
         taskContent.innerText = task.content;
         taskCheckBox.checked = task.isCompleted;
+        if (task.isCompleted) {
+            taskCheckBox.addEventListener('click', () => {
+                moveTask(completedTaskList, currentTaskList, task.id);
+            });
+        }
+        else {
+            taskCheckBox.addEventListener('click', () => {
+                moveTask(currentTaskList, completedTaskList, task.id);
+            });
+        }
         taskItem.append(taskCheckBox);
         taskItem.append(taskTitle);
         taskItem.append(taskDeadline);
@@ -110,14 +134,14 @@ closeModalBtn === null || closeModalBtn === void 0 ? void 0 : closeModalBtn.addE
 addTaskBtn === null || addTaskBtn === void 0 ? void 0 : addTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
     if (formValidCheck()) {
-        addTask(CurrentTaskList);
-        refreshTaskList(CurrentTaskList);
+        addTask(currentTaskList);
+        refreshTaskList(currentTaskList);
         toggleModal();
     }
 });
 currentTaskNav === null || currentTaskNav === void 0 ? void 0 : currentTaskNav.addEventListener('click', (e) => {
     changeTab(e);
-    refreshTaskList(CurrentTaskList);
+    refreshTaskList(currentTaskList);
 });
 completedTaskNav === null || completedTaskNav === void 0 ? void 0 : completedTaskNav.addEventListener('click', (e) => {
     changeTab(e);
