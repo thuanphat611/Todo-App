@@ -6,6 +6,11 @@ const closeModalBtn = document.querySelector('.close-modal');
 const myModal = document.querySelector<HTMLDivElement>('.modal');
 const addTaskBtn = document.querySelector('.save-btn');
 
+// const formTitle = document.querySelector('.title-input');
+
+// const clearForm = (): void => {
+
+// };
 
 const changeTab = (): void => {
   console.log('change');
