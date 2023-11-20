@@ -1,7 +1,8 @@
 const currentTaskNav = document.querySelectorAll('.nav-item')[0];
 const completedTaskNav = document.querySelectorAll('.nav-item')[1];
 
-const addBtn = document.querySelector('.add-button');
+const addBtn = document.querySelectorAll('.nav-button')[0];
+const clearBtn = document.querySelectorAll('.nav-button')[1];
 const closeModalBtn = document.querySelector('.close-modal');
 const myModal = document.querySelector<HTMLDivElement>('.modal');
 const addTaskBtn = document.querySelector('.save-btn');
@@ -31,6 +32,11 @@ let completedTaskList: Task[] = [
   isCompleted: true
   }
 ];
+
+const clearCompleted = (): void => {
+  completedTaskList = [];
+  refreshTaskList(completedTaskList);
+};
 
 const moveTask = (src: Task[], dest: Task[], id: number): void => {
   const task = src.filter((task) => task.id === id)[0];
@@ -142,11 +148,15 @@ const changeTab = (e: any): void => {
     currentTaskNav.classList.toggle('active');
     completedTaskNav.classList.toggle('active');
     currentTab = 2;
+    addBtn?.classList.toggle('no-display');
+    clearBtn?.classList.toggle('no-display');
   }
   if (e.target === currentTaskNav && currentTab === 2) {
     currentTaskNav.classList.toggle('active');
     completedTaskNav.classList.toggle('active');
     currentTab = 1;
+    addBtn?.classList.toggle('no-display');
+    clearBtn?.classList.toggle('no-display');
   }
 };
 
@@ -157,6 +167,10 @@ const toggleModal = (): void => {
 
 addBtn?.addEventListener("click", () => {
   toggleModal();
+});
+
+clearBtn?.addEventListener("click", () => {
+  clearCompleted();
 });
 
 closeModalBtn?.addEventListener("click", () => {

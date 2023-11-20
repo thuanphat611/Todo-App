@@ -1,7 +1,8 @@
 "use strict";
 const currentTaskNav = document.querySelectorAll('.nav-item')[0];
 const completedTaskNav = document.querySelectorAll('.nav-item')[1];
-const addBtn = document.querySelector('.add-button');
+const addBtn = document.querySelectorAll('.nav-button')[0];
+const clearBtn = document.querySelectorAll('.nav-button')[1];
 const closeModalBtn = document.querySelector('.close-modal');
 const myModal = document.querySelector('.modal');
 const addTaskBtn = document.querySelector('.save-btn');
@@ -20,6 +21,10 @@ let completedTaskList = [
         isCompleted: true
     }
 ];
+const clearCompleted = () => {
+    completedTaskList = [];
+    refreshTaskList(completedTaskList);
+};
 const moveTask = (src, dest, id) => {
     const task = src.filter((task) => task.id === id)[0];
     task.isCompleted = !task.isCompleted;
@@ -114,11 +119,15 @@ const changeTab = (e) => {
         currentTaskNav.classList.toggle('active');
         completedTaskNav.classList.toggle('active');
         currentTab = 2;
+        addBtn === null || addBtn === void 0 ? void 0 : addBtn.classList.toggle('no-display');
+        clearBtn === null || clearBtn === void 0 ? void 0 : clearBtn.classList.toggle('no-display');
     }
     if (e.target === currentTaskNav && currentTab === 2) {
         currentTaskNav.classList.toggle('active');
         completedTaskNav.classList.toggle('active');
         currentTab = 1;
+        addBtn === null || addBtn === void 0 ? void 0 : addBtn.classList.toggle('no-display');
+        clearBtn === null || clearBtn === void 0 ? void 0 : clearBtn.classList.toggle('no-display');
     }
 };
 const toggleModal = () => {
@@ -127,6 +136,9 @@ const toggleModal = () => {
 };
 addBtn === null || addBtn === void 0 ? void 0 : addBtn.addEventListener("click", () => {
     toggleModal();
+});
+clearBtn === null || clearBtn === void 0 ? void 0 : clearBtn.addEventListener("click", () => {
+    clearCompleted();
 });
 closeModalBtn === null || closeModalBtn === void 0 ? void 0 : closeModalBtn.addEventListener("click", () => {
     toggleModal();
